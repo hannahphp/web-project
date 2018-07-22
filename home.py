@@ -19,14 +19,40 @@ def get_dob():
 	
 	return dob 
 
-def calculate_age(_year):
+def calculate_age(user_date):
 	weekend = 'N/A'
-	if user_year <=2018 and user_month <=6 and user_day <=25:
+	today = datetime.today()
+	minus18 = today.replace(year=today.year-18)
+	if user_date >= minus18:
 		weekend = 'Try again when you are 18 or grab a mocktail!' 
-	if user_year >=2018 and user_month >=6 and user_day >=26:
-		weekend = 'Have a great Weekend!' 
+	else:
+		weekend = 'Have a great weekend! Here are our tips: https://www.google.co.uk/' 
+
+	return render_template(
+		"showmyweekend.html",
+		data=weekend)
+
+# def calculate_age(user_year, user_month, user_day):
+# 	weekend = 'N/A'
+# 	if user_year >=2000 and user_month >=6 and user_day >=25:
+# 		weekend = 'Try again when you are 18 or grab a mocktail!' 
+# 	else:
+# 		weekend = 'Have a great weekend!' 
+
+# 	return render_template(
+# 		"showmyweekend.html",
+# 		data=weekend)
+
+@app.route("/showmyweekend", methods=["POST"])
+def get_weekend():
+	form_data = request.form #Getting hold of a Form object that is sent from a browser.
+	dateOfBirth =  form_data["dob"] # from the form object getting value of dob field.
+	date = datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
+	# day = date.day
+	# month = date.month
+	# year = date.year
 	
-   	return weekend
+	return calculate_age(datetime(date.year, date.month, date.day)) 
 
 # user_dob = get_dob()
 # user_year = datetime.strptime(user_dob,'%m/%d/%Y').year
@@ -37,4 +63,7 @@ def calculate_age(_year):
 # print 'Your DOB :' + user_dob
 # print 'Your Weekend:' + user_gen
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
+
+# app.run(debug=True)
