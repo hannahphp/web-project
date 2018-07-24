@@ -25,12 +25,24 @@ def calculate_age(user_date):
 	minus18 = today.replace(year=today.year-18)
 	if user_date >= minus18:
 		weekend = 'Try again when you are 18 or grab a mocktail!' 
+		page = "dontshowmyweekend.html"
 	else:
-		weekend = 'Have a great weekend! Here are our tips: https://www.google.co.uk/' 
+		weekend = 'Have a great weekend! Here are our tips' 
+		page = "showmyweekend.html"
 
 	return render_template(
-		"showmyweekend.html",
-		data=weekend)
+		page,
+		data=weekend) 
+
+# def calculate_age(user_date):
+# 	weekend = 'N/A'
+# 	today = datetime.today()
+# 	minus18 = today.replace(year=today.year-18)
+# 	if user_date <= minus18:
+# 		weekend = 'Have a great weekend! Here are our tips' 
+# 	return render_template(
+# 		"showmyweekend.html",
+# 		data=weekend)
 
 # def calculate_age(user_year, user_month, user_day):
 # 	weekend = 'N/A'
